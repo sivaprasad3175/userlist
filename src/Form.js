@@ -154,7 +154,6 @@ const Form = () => {
               <th>Name</th>
               <th>Email</th>
               <th>Address</th>
-              <th>Actions</th> {/* New Actions column */}
             </tr>
           </thead>
           <tbody>
