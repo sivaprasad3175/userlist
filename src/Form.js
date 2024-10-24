@@ -11,6 +11,8 @@ const Form = () => {
 
   const [submitted, setSubmitted] = useState(false);
   const [users, setUsers] = useState([]);
+  const [editMode, setEditMode] = useState(false); // State to track if we are editing
+  const [currentUserId, setCurrentUserId] = useState(null); // State to hold current user ID for editing
 
   const handleChange = (e) => {
     setFormData({
@@ -33,8 +35,12 @@ const Form = () => {
     e.preventDefault(); // Prevent form from refreshing the page
 
     try {
-      const response = await fetch("https://users-2-j0ak.onrender.com/api/user/create", {
-        method: "POST",
+      const url = editMode
+        ? `https://users-2-j0ak.onrender.com/api/user/update/${currentUserId}` // URL for updating user
+        : "https://users-2-j0ak.onrender.com/api/user/create"; // URL for creating user
+
+      const response = await fetch(url, {
+        method: editMode ? "PUT" : "POST", // PUT for update, POST for create
         headers: {
           "Content-Type": "application/json",
         },
@@ -50,6 +56,10 @@ const Form = () => {
           address: "",
         });
 
+        // Reset edit mode after submitting
+        setEditMode(false);
+        setCurrentUserId(null);
+
         setTimeout(() => {
           setSubmitted(false);
         }, 3000);
@@ -61,12 +71,41 @@ const Form = () => {
     }
   };
 
+  const handleEdit = (user) => {
+    setFormData({
+      name: user.name,
+      email: user.email,
+      address: user.address,
+    });
+    setEditMode(true); // Enable edit mode
+    setCurrentUserId(user._id); // Set current user ID for updating
+  };
+
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      try {
+        const response = await fetch(`https://users-2-j0ak.onrender.com/api/user/delete/${id}`, {
+          method: "DELETE",
+        });
+
+        if (response.ok) {
+          fetchUsers(); // Refresh the user list after deletion
+        } else {
+          console.error("Failed to delete user");
+        }
+      } catch (error) {
+        console.error("Error deleting user:", error);
+      }
+    }
+  };
+
   useEffect(() => {
     fetchUsers();
   }, []);
 
   return (
     <div className="form-container">
+      <img src={logo} alt="Logo" className="logo" />
       <h1 className="form-title">User Registration Form</h1>
       <form onSubmit={handleSubmit} className="user-form">
         <div className="form-group">
@@ -104,7 +143,7 @@ const Form = () => {
             className="form-textarea"
           ></textarea>
         </div>
-        <button type="submit" className="submit-button">Submit</button>
+        <button type="submit" className="submit-button">{editMode ? "Update" : "Submit"}</button>
       </form>
       {submitted && <p className="success-message">Form submitted successfully!</p>}
 
@@ -116,6 +155,7 @@ const Form = () => {
               <th>Name</th>
               <th>Email</th>
               <th>Address</th>
+              <th>Actions</th> {/* New Actions column */}
             </tr>
           </thead>
           <tbody>
@@ -124,6 +164,10 @@ const Form = () => {
                 <td>{user.name}</td>
                 <td>{user.email}</td>
                 <td>{user.address}</td>
+                <td>
+                  <button onClick={() => handleEdit(user)}>Edit</button>
+                  <button onClick={() => handleDelete(user._id)}>Delete</button>
+                </td>
               </tr>
             ))}
           </tbody>
