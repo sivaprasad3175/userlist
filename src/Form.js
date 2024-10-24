@@ -26,7 +26,7 @@ const Form = () => {
   const fetchUsers = async () => {
     try {
       const response = await fetch("https://users-2-j0ak.onrender.com/api/user/fetch");
-      console.log(response,'respone')
+      console.log(response, 'response');
       const data = await response.json();
       setUsers(data);
     } catch (error) {
@@ -118,19 +118,28 @@ const Form = () => {
       {submitted && <p style={{ color: "green" }}>Form submitted successfully!</p>}
 
       <h2>User List</h2>
-      <ul>
-        {users.length > 0 ? (
-          users.map((user) => (
-            <li key={user._id}>
-              <strong>Name:</strong> {user.name} <br />
-              <strong>Email:</strong> {user.email} <br />
-              <strong>Address:</strong> {user.address}
-            </li>
-          ))
-        ) : (
-          <p>No users found.</p>
-        )}
-      </ul>
+      {users.length > 0 ? (
+        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+          <thead>
+            <tr>
+              <th style={{ border: "1px solid #ccc", padding: "8px" }}>Name</th>
+              <th style={{ border: "1px solid #ccc", padding: "8px" }}>Email</th>
+              <th style={{ border: "1px solid #ccc", padding: "8px" }}>Address</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user._id}>
+                <td style={{ border: "1px solid #ccc", padding: "8px" }}>{user.name}</td>
+                <td style={{ border: "1px solid #ccc", padding: "8px" }}>{user.email}</td>
+                <td style={{ border: "1px solid #ccc", padding: "8px" }}>{user.address}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <p>No users found.</p>
+      )}
     </div>
   );
 };
