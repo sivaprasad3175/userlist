@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import './Form.css'; // Import your CSS file here
 
 const Form = () => {
   // State to hold form values
@@ -78,11 +79,11 @@ const Form = () => {
   }, []);
 
   return (
-    <div>
-      <h1>React Form</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="name">Name: </label>
+    <div className="form-container">
+      <h1 className="form-title">User Registration Form</h1>
+      <form onSubmit={handleSubmit} className="user-form">
+        <div className="form-group">
+          <label htmlFor="name">Name:</label>
           <input
             type="text"
             id="name"
@@ -90,10 +91,11 @@ const Form = () => {
             value={formData.name}
             onChange={handleChange}
             required
+            className="form-input"
           />
         </div>
-        <div>
-          <label htmlFor="email">Email: </label>
+        <div className="form-group">
+          <label htmlFor="email">Email:</label>
           <input
             type="email"
             id="email"
@@ -101,38 +103,40 @@ const Form = () => {
             value={formData.email}
             onChange={handleChange}
             required
+            className="form-input"
           />
         </div>
-        <div>
-          <label htmlFor="address">Address: </label>
+        <div className="form-group">
+          <label htmlFor="address">Address:</label>
           <textarea
             id="address"
             name="address"
             value={formData.address}
             onChange={handleChange}
             required
+            className="form-textarea"
           ></textarea>
         </div>
-        <button type="submit">Submit</button>
+        <button type="submit" className="submit-button">Submit</button>
       </form>
-      {submitted && <p style={{ color: "green" }}>Form submitted successfully!</p>}
+      {submitted && <p className="success-message">Form submitted successfully!</p>}
 
-      <h2>User List</h2>
+      <h2 className="user-list-title">User List</h2>
       {users.length > 0 ? (
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+        <table className="user-table">
           <thead>
             <tr>
-              <th style={{ border: "1px solid #ccc", padding: "8px" }}>Name</th>
-              <th style={{ border: "1px solid #ccc", padding: "8px" }}>Email</th>
-              <th style={{ border: "1px solid #ccc", padding: "8px" }}>Address</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Address</th>
             </tr>
           </thead>
           <tbody>
             {users.map((user) => (
               <tr key={user._id}>
-                <td style={{ border: "1px solid #ccc", padding: "8px" }}>{user.name}</td>
-                <td style={{ border: "1px solid #ccc", padding: "8px" }}>{user.email}</td>
-                <td style={{ border: "1px solid #ccc", padding: "8px" }}>{user.address}</td>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                <td>{user.address}</td>
               </tr>
             ))}
           </tbody>
