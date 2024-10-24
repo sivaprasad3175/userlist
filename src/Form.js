@@ -1,21 +1,18 @@
 import React, { useState, useEffect } from "react";
 import './Form.css'; // Import your CSS file here
+import logo from './logo512.png'; // Adjust the path based on where you placed your logo
+// import background from './background.jpg'; // Adjust the path based on where you placed your background image
 
 const Form = () => {
-  // State to hold form values
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     address: ""
   });
 
-  // State to show success message
   const [submitted, setSubmitted] = useState(false);
-
-  // State to hold the list of users
   const [users, setUsers] = useState([]);
 
-  // Handle input changes
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -23,11 +20,9 @@ const Form = () => {
     });
   };
 
-  // Fetch users from the API
   const fetchUsers = async () => {
     try {
       const response = await fetch("https://users-2-j0ak.onrender.com/api/user/fetch");
-      console.log(response, 'response');
       const data = await response.json();
       setUsers(data);
     } catch (error) {
@@ -35,7 +30,6 @@ const Form = () => {
     }
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent form from refreshing the page
 
@@ -49,22 +43,17 @@ const Form = () => {
       });
 
       if (response.ok) {
-        setSubmitted(true); // Show success message
-
-        // Fetch updated list of users
+        setSubmitted(true);
         fetchUsers();
-
-        // Reset form fields
         setFormData({
           name: "",
           email: "",
           address: "",
         });
 
-        // Optionally hide the success message after a few seconds
         setTimeout(() => {
           setSubmitted(false);
-        }, 3000); // Hide message after 3 seconds
+        }, 3000);
       } else {
         console.error("Failed to submit form");
       }
@@ -73,13 +62,13 @@ const Form = () => {
     }
   };
 
-  // Fetch users when the component mounts
   useEffect(() => {
     fetchUsers();
   }, []);
 
   return (
     <div className="form-container">
+      <img src={logo} alt="Logo" className="logo" />
       <h1 className="form-title">User Registration Form</h1>
       <form onSubmit={handleSubmit} className="user-form">
         <div className="form-group">
