@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import './Form.css'; // Import your CSS file here
 import logo from './logo512.png'; // Adjust the path based on where you placed your logo
-// import background from './background.jpg'; // Adjust the path based on where you placed your background image
 
 const Form = () => {
   const [formData, setFormData] = useState({
