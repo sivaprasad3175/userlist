@@ -67,7 +67,6 @@ const Form = () => {
 
   return (
     <div className="form-container">
-      <img src={logo} alt="Logo" className="logo" />
       <h1 className="form-title">User Registration Form</h1>
       <form onSubmit={handleSubmit} className="user-form">
         <div className="form-group">
