@@ -105,7 +105,6 @@ const Form = () => {
 
   return (
     <div className="form-container">
-      <img src={logo} alt="Logo" className="logo" />
       <h1 className="form-title">User Registration Form</h1>
       <form onSubmit={handleSubmit} className="user-form">
         <div className="form-group">
@@ -164,10 +163,7 @@ const Form = () => {
                 <td>{user.name}</td>
                 <td>{user.email}</td>
                 <td>{user.address}</td>
-                <td>
-                  <button onClick={() => handleEdit(user)}>Edit</button>
-                  <button onClick={() => handleDelete(user._id)}>Delete</button>
-                </td>
+               
               </tr>
             ))}
           </tbody>
